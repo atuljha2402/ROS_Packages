@@ -32,6 +32,10 @@ class Ur5Moveit:
         self._planning_frame = self._group.get_planning_frame()
         self._eef_link = self._group.get_end_effector_link()
         self._group_names = self._robot.get_group_names()
+        self._box_name = ''
+
+        # Current State of the Robot is needed to add box to planning scene
+        self._curr_state = self._robot.get_current_state()
 
         rospy.loginfo(
             '\033[94m' + "Planning Group: {}".format(self._planning_frame) + '\033[0m')
@@ -80,42 +84,32 @@ def main():
     ur5 = Ur5Moveit()
 
     ur5_pose_1 = geometry_msgs.msg.Pose()
-    ur5_pose_1.position.x = -0.0117359070508
-    ur5_pose_1.position.y = 0.381099825244
-    ur5_pose_1.position.z = 1.93028502052
-    ur5_pose_1.orientation.x = 0.685502274487
-    ur5_pose_1.orientation.y = -0.173762346947
-    ur5_pose_1.orientation.z = 0.172968760231
-    ur5_pose_1.orientation.w = 0.685547289719
+    ur5_pose_1.position.x = 0.002648
+    ur5_pose_1.position.y = 0.25018
+    ur5_pose_1.position.z = 1.917855
+    ur5_pose_1.orientation.x = 0.000796
+    ur5_pose_1.orientation.y = 0.999999
+    ur5_pose_1.orientation.z = 0.00024155
+    ur5_pose_1.orientation.w = -3.049716
 
-    ur5_pose_2 = geometry_msgs.msg.Pose()
-    ur5_pose_2.position.x = 0.801765318923
-    ur5_pose_2.position.y = 0.793581616462
-    ur5_pose_2.position.z = 0.725427603359
-    ur5_pose_2.orientation.x = 0.945864250752
-    ur5_pose_2.orientation.y = -0.323446931725
-    ur5_pose_2.orientation.z = 0.0171945849279
-    ur5_pose_2.orientation.w = -0.0206699723465
-    """
     ur5_pose_3 = geometry_msgs.msg.Pose()
-    ur5_pose_3.position.x = 0.061218702528
-    ur5_pose_3.position.y = 0.150917431354
-    ur5_pose_3.position.z = 1.20083763657
-    ur5_pose_3.orientation.x = 0.635613875737
-    ur5_pose_3.orientation.y = 0.77190802743
-    ur5_pose_3.orientation.z = 0.00233308772292
-    ur5_pose_3.orientation.w = 0.0121472162087
-    """
+    ur5_pose_3.position.x = -0.648075
+    ur5_pose_3.position.y = -0.159375
+    ur5_pose_3.position.z = 0.921774
+    ur5_pose_3.orientation.x = 0.000796
+    ur5_pose_3.orientation.y = 0.999999
+    ur5_pose_3.orientation.z = 0.00024155
+    ur5_pose_3.orientation.w = -3.049716
 
-    ur5.go_to_pose(ur5_pose_1)
-    rospy.sleep(10)
-    ur5.go_to_pose(ur5_pose_2)
-    rospy.sleep(10)
+    while not rospy.is_shutdown():
+        ur5.go_to_pose(ur5_pose_1)
+        rospy.sleep(5)
+        ur5.go_to_pose(ur5_pose_3)
+        rospy.sleep(5)
 
     del ur5
 
 
 if __name__ == '__main__':
     main()
-
 
